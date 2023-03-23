@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { deleteJsonData } from "../../shared/utils/ApiUtilities.js";
-import Header from "../../Header.js";
+import Header from "../../shared/components/Header/Header.js";
 
 export default function DeleteSong() {
   const [songId, setSongId] = useState("");

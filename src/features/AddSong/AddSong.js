@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { postJsonData } from "../../shared/utils/ApiUtilities.js";
-import Header from "../../Header.js";
+import Header from "../../shared/components/Header/Header.js";
 import { useLoader } from "../../shared/hooks/useLoader.js";
 
 export default function AddSong() {

@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { getJsonData } from "../../shared/utils/ApiUtilities.js";
-import Header from "../../Header.js";
+import Header from "../../shared/components/Header/Header.js";
 import { useLoader } from "../../shared/hooks/useLoader.js";
 
 export default function SongsList() {
