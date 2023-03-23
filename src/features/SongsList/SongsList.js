@@ -3,11 +3,15 @@ import { useNavigate } from "react-router-dom";
 import { getJsonData } from "../../shared/utils/ApiUtilities.js";
 import Header from "../../shared/components/Header/Header.js";
 import { useLoader } from "../../shared/hooks/useLoader.js";
+import SongItem from "./SongItem.js";
+import { Skeleton } from "@mui/material";
+import SongSkeleton from "./SongSkeleton.js";
 
 export default function SongsList() {
   const [songs, setSongs] = useState([]);
 
-  const { setLoaderSpinning } = useLoader();
+  // const { setLoaderSpinning } = useLoader();
+  const [isLoading, setIsLoading] = useState(false);
 
   const navigate = useNavigate();
 
@@ -18,9 +22,11 @@ export default function SongsList() {
 
   function getData() {
     // api call
-    setLoaderSpinning(true);
+    // setLoaderSpinning(true);
+    setIsLoading(true);
     getJsonData("/songs").then((response) => {
-      setLoaderSpinning(false);
+      // setLoaderSpinning(false);
+      setIsLoading(false);
       // what we do when we will receive the response
       if (response == "Un Authorized") {
         localStorage.clear();
@@ -37,11 +43,19 @@ export default function SongsList() {
       <Header />
       SongsList
       <hr />
-      {songs.map((x) => (
-        <fieldset>
-          {x.songName} - {x.rating} <div>{x._id}</div>
-        </fieldset>
-      ))}
+      {isLoading == true ? (
+        <div>
+          <SongSkeleton />
+          <SongSkeleton />
+          <SongSkeleton />
+          <SongSkeleton />
+          <SongSkeleton />
+        </div>
+      ) : (
+        songs.map((x) => (
+          <SongItem songName={x.songName} rating={x.rating} key={x.id} />
+        ))
+      )}
     </div>
   );
 }
