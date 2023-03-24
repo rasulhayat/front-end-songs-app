@@ -1,49 +1,26 @@
-import React, { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
-import { getJsonData } from "../../shared/utils/ApiUtilities.js";
+import React from "react";
 import Header from "../../shared/components/Header/Header.js";
-import { useLoader } from "../../shared/hooks/useLoader.js";
 import SongItem from "./SongItem.js";
-import { Skeleton } from "@mui/material";
 import SongSkeleton from "./SongSkeleton.js";
+import { useDispatch, useSelector } from "react-redux";
+import { getAllSongs } from "../../data/songSlice.js";
 
 export default function SongsList() {
-  const [songs, setSongs] = useState([]);
-
-  // const { setLoaderSpinning } = useLoader();
-  const [isLoading, setIsLoading] = useState(false);
-
-  const navigate = useNavigate();
-
-  useEffect(() => {
-    //to load data on page load
-    getData();
-  }, []);
-
+  //redux store value for the song
+  const { allSongs } = useSelector((state) => state.songs);
+  const { loadingTheSongs } = useSelector((state) => state.songs);
+  const dispatch = useDispatch();
   function getData() {
-    // api call
-    // setLoaderSpinning(true);
-    setIsLoading(true);
-    getJsonData("/songs").then((response) => {
-      // setLoaderSpinning(false);
-      setIsLoading(false);
-      // what we do when we will receive the response
-      if (response == "Un Authorized") {
-        localStorage.clear();
-        // redirect to login
-        navigate("/login");
-      } else {
-        setSongs(response);
-      }
-    });
+    dispatch(getAllSongs());
   }
 
   return (
     <div>
       <Header />
-      SongsList
+      <h1>SongsList</h1>
+      <button onClick={getData}>LoadSongs</button>
       <hr />
-      {isLoading == true ? (
+      {loadingTheSongs == true ? (
         <div>
           <SongSkeleton />
           <SongSkeleton />
@@ -52,8 +29,8 @@ export default function SongsList() {
           <SongSkeleton />
         </div>
       ) : (
-        songs.map((x) => (
-          <SongItem songName={x.songName} rating={x.rating} key={x.id} />
+        allSongs.map((x) => (
+          <SongItem songName={x.songName} rating={x.rating} key={x._id} />
         ))
       )}
     </div>

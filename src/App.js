@@ -16,10 +16,10 @@ import { useState } from "react";
 import { GlobalData } from "./data/GlobalData.js";
 
 function App() {
-  const [loaderSpinnig, setLoaderSpinning] = useState(false);
+  const [loaderSpinning, setLoaderSpinning] = useState(false);
   return (
     <div className="App">
-      {loaderSpinnig && <Loader />}
+      {loaderSpinning && <Loader />}
       <GlobalData.Provider value={{ setLoaderSpinning }}>
         <Routes>
           <Route path="/login" element={<Login />}></Route>
