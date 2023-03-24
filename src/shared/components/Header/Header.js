@@ -1,29 +1,48 @@
-import React from 'react'
-import { Link, useNavigate } from 'react-router-dom'
+import { Avatar, Button } from "@mui/material";
+import LogoutIcon from "@mui/icons-material/Logout";
+import React from "react";
+import { Link, useNavigate } from "react-router-dom";
 
 export default function Header() {
+  const navigate = useNavigate();
 
-    const navigate = useNavigate();
+  function getUsername() {
+    return localStorage.getItem("username");
+  }
 
-    function getUsername(){
-        return localStorage.getItem('username')
-    }
+  function logout() {
+    localStorage.clear();
+    navigate("/login");
+  }
 
-    function logout(){
-        localStorage.clear();
-        navigate('/login')
-    }
+  return (
+    <div className="app-header">
+      <div>
+        <Link className="no-underline" to={"/song-list"}>
+          <Button variant="contained">List</Button>
+        </Link>
+        &nbsp;&nbsp;&nbsp;&nbsp;
+        <Link className="no-underline" to={"/add-song"}>
+          <Button variant="contained">Add</Button>
+        </Link>
+        &nbsp;&nbsp;&nbsp;&nbsp;
+        <Link className="no-underline" to={"/delete-song"}>
+          <Button variant="contained">Delete</Button>
+        </Link>
+        &nbsp;&nbsp;&nbsp;&nbsp;
+      </div>
 
-    return (
-        <div>
-            <div className='header-username'>
-                {getUsername()}
-            </div>
-            <Link to={'/song-list'}><button>List</button></Link>&nbsp;&nbsp;&nbsp;&nbsp;
-            <Link to={'/add-song'}><button>Add</button></Link>&nbsp;&nbsp;&nbsp;&nbsp;
-            <Link to={'/delete-song'}><button>Delete</button></Link>&nbsp;&nbsp;&nbsp;&nbsp;
-            <Link to={'/login'}><button>Login</button></Link>&nbsp;&nbsp;&nbsp;&nbsp;
-            <button onClick={logout}>Logout</button>
+      <div className="header-username">
+        <div className="user-info">
+          <Avatar>{getUsername()?.charAt(0)}</Avatar>
+          <span>{getUsername()}</span>
         </div>
-    )
+        <div>
+          <LogoutIcon sx={{ color: "white", float: "right" }} onClick={logout}>
+            Logout
+          </LogoutIcon>
+        </div>
+      </div>
+    </div>
+  );
 }
